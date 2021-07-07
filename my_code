@@ -13,37 +13,30 @@ def load_library (file)
     emojifile.each do |key,value|
       hash[key] = {:english => value[0], :japanese => value[1]}
       end
-  return hash
+  pp hash
 end
 
 def get_english_meaning(file, j_emoticon)
-  translation = ""
-  new_hash = load_library(file)
-  new_hash.each do |name, languages|
-      if languages[:japanese] == j_emoticon
-      translation = name
-    end
-  end
-    if translation == ""
-      return "Sorry, that emoticon was not found"
-    else
-      return translation
-    end
-  end
+  emojifile = load_library(file)
 
-def get_japanese_emoticon(yaml_file, eng_emoti)
-translation = ""
-new_hash = load_library(yaml_file)
-new_hash.each do |name, languages|
-    if languages[:english] == eng_emoti
-    translation = languages[:japanese]
+  emojifile.each {|key,value|
+    if emojifile[key][:japanese].include?(j_emoticon)
+    return emojifile.key(emojifile[key])
   end
+}
 end
-  if translation == ""
-    return "Sorry, that emoticon was not found"
-  else
-    return translation
+
+def get_japanese_emoticon (file, e_emoticon)
+  emojifile = load_library(file)
+  emojifile.each {|key,value|
+    if emojifile[key][:english].include?(e_emoticon)
+    return emojifile[key][:japanese]
   end
+}
+#  else
+#    return "Sorry, that emoticon was not found"
+
+
 end
 
 #def get_japanese_emoticon (file, e_emoticon)
